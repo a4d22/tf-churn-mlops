@@ -21,11 +21,9 @@ jobs:
     - name: Set up Python
       run: uv python install 3.10
 
-    - name: Install Linting Tools
-      run: uv pip install black flake8 --system
-
+    # This single line handles everything cleanly without system flags!
     - name: Run Code Formatter Check
-      run: black --check src/
+      run: uvx black --check src/
   
   # JOB 2: Run TensorFlow Unit Tests (Continuous Testing)
   run-unit-tests:
@@ -43,10 +41,13 @@ jobs:
     - name: Set up Python
       run: uv python install 3.10
 
+    # FIX: We create and activate a proper virtual environment inside the runner workspace
     - name: Install Dependencies & Package
       run: |
-        uv pip install --system -r requirements-dev.txt
-        uv pip install --system -e .
+        uv venv
+        echo "$GITHUB_WORKSPACE/.venv/bin" >> $GITHUB_PATH
+        uv pip install -r requirements-dev.txt
+        uv pip install -e .
 
     - name: Run Test Suite
       run: pytest
