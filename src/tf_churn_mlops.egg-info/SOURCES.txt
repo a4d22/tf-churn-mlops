@@ -1,0 +1,7 @@
+pyproject.toml
+src/train.py
+src/tf_churn_mlops.egg-info/PKG-INFO
+src/tf_churn_mlops.egg-info/SOURCES.txt
+src/tf_churn_mlops.egg-info/dependency_links.txt
+src/tf_churn_mlops.egg-info/top_level.txt
+tests/test_model.py

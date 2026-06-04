@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  # Container 1 : The production caching layer
+  cache-db:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    
+  # Container 2: Tensorflow Script
+  model-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports: 
+      - "8000:8000"
+    environment:
+      - REDIS_HOST=cache-db
+      - REDIS_PORT=6379
+    depends_on:
+      - cache-db
